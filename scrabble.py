@@ -30,18 +30,23 @@ def create_word_dict():
 
     return word_dict
 
-def run_scrabble():
+def run_scrabble(p_word):
+    if type(p_word) != str or len(p_word) < 2 or len(p_word) > 7:
+        raise TypeError("Input must be string with more than one character and less than 8")
+    
     word_dict = create_word_dict()
     
-    words_to_check = powerset("MATTERED")
+    words_to_check = powerset(p_word)
     list_to_score = []
     for word in words_to_check:
         sub_dict = word_dict.get(word[:2],[])
-        if word in sub_dict:
+        if word in sub_dict and word not in list_to_score:
             list_to_score.append(word)
-    print(list_to_score)
-    #score_word(list_to_score)
- 
+    #print(list_to_score)
+    output = score_word(list_to_score)
+    output = (output,len(output))
+    print(output)
+    #return output
 if __name__ == "__main__":
-    run_scrabble()
+    run_scrabble("MATTER")
    
