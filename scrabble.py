@@ -38,7 +38,7 @@ def run_scrabble(p_word):
     if any(char.isdigit() for char in p_word):
         return "Input must contain NO numbers"
     
-    if any(char not in "ABCDEFGHIJKLMNOPQRSTUVWXYZ?*" for char in p_word):
+    if any(char not in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz?*" for char in p_word):
         return "Input must contain no non alpha chars; 1 or 2 wildcard chars are ok: * + ? "
 
     if not isinstance(p_word, str):
