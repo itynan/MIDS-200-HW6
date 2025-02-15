@@ -31,6 +31,11 @@ def create_word_dict():
     return word_dict
 
 def run_scrabble(p_word):
+    '''This is the main function that first validates the word input for a proper input string, then
+    passes the the word into a powerset function that generates a list of all possible permutations.
+    All permutations are tested against a dictionary of real words provided  '''
+
+
     if type(p_word) != str or len(p_word) < 2 or len(p_word) > 7:
         raise TypeError("Input must be string with more than one character and less than 8")
     
@@ -45,8 +50,8 @@ def run_scrabble(p_word):
     #print(list_to_score)
     output = score_word(list_to_score)
     
-    # print(output)
+    #print(output)
     return output
 if __name__ == "__main__":
-    run_scrabble("ZZZZEE")
+    run_scrabble("ZAEfiee")
    

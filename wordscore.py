@@ -10,8 +10,10 @@ def score_word(words):
 
     for word in words:
         output.append(output_tpl_bldr(word))
-    
-    return output, len(output)
+    #https://stackoverflow.com/questions/3121979/how-to-sort-a-list-tuple-of-lists-tuples-by-the-element-at-a-given-index
+    #this lambda sorts first by descending(NEGATIVE) numbers -x[0] and then alpha order
+    sorted_num_alpha = sorted(output, key=lambda x: (-x[0], x[1]))
+    return sorted_num_alpha, len(sorted_num_alpha)
 
 def output_tpl_bldr(word):
     
