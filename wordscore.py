@@ -35,13 +35,17 @@ def output_tpl_bldr(word):
 
 #taken from lecture 6.2.2, func returns the powerset of a word's characters
 def powerset(iterable):
-    if not isinstance(iterable, str) or len(iterable) < 2 or len(iterable) > 7:        
-        raise TypeError("Input must be string with more than one character")
+    #https://www.geeksforgeeks.org/python-itertools-product/
+
+    if any(char in"*?" for char in iterable):
+        
+
     else:
+
         iterable = tuple(iterable.upper())
         s = list(iterable)
-        all_tuples= list(chain.from_iterable(permutations(s, r) for r in range(len(s)+1)))
-            
+        all_tuples= list(chain.from_iterable(permutations(s, r) for r in range(2,len(s)+1,8)))
+                
         #for loop constructs list of all possible permutations into contiguous words and removes tuples with <2 chars and > 7
         words_to_check = []
         for tupl in all_tuples:
