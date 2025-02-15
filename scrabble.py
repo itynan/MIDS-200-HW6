@@ -37,15 +37,15 @@ def run_scrabble(p_word):
 
 
     if not isinstance(p_word, str) or len(p_word) < 2:
-        raise TypeError("Input must be string with more than one character")
+        return "Input must be string with more than one character"
     if len(p_word) > 7:
                 return "Error: Input must be string with more than one character"
 
     if p_word.count("*") + p_word.count("?") > 2:
-        raise TypeError("Input contains more than 2 wildcards")
+        return "Input contains more than 2 wildcards"
 
 
-    
+
     word_dict = create_word_dict()
     
     words_to_check = powerset(p_word)
