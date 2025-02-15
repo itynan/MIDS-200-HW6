@@ -1,4 +1,4 @@
-from itertools import chain, combinations
+from itertools import chain, permutations
 
 
 def score_word(words):
@@ -38,7 +38,7 @@ def powerset(iterable):
     else:
         iterable = tuple(iterable.upper())
         s = list(iterable)
-        all_tuples= list(chain.from_iterable(combinations(s, r) for r in range(len(s)+1)))
+        all_tuples= list(chain.from_iterable(permutations(s, r) for r in range(len(s)+1)))
             
         #for loop constructs list of all possible permutations into contiguous words and removes tuples with <2 chars and > 7
         words_to_check = []
