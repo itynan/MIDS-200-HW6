@@ -35,7 +35,8 @@ def run_scrabble(p_word):
     passes the the word into a powerset function that generates a list of all possible permutations.
     All permutations are tested against a dictionary of real words provided  '''
 
-
+    if any(char.isdigit() for char in p_word):
+        return "Input must contain NO numbers"
 
     if not isinstance(p_word, str):
         return "Input must be string with more than one character"
@@ -63,5 +64,5 @@ def run_scrabble(p_word):
     print(output)
     return output
 if __name__ == "__main__":
-    run_scrabble("AB")
+    print(run_scrabble("A1123B"))
    
