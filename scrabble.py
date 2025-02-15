@@ -1,7 +1,8 @@
-from wordscore import score_word
+from wordscore import score_word, powerset
 
 def run_scrabble():
-    print("hi")
-
+    #print(score_word())
+    pass
 if __name__ == "__main__":
     run_scrabble()
+    print(powerset("super"))

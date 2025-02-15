@@ -1,11 +1,5 @@
 from itertools import chain, combinations
 
-#taken from lecture 6.2.2
-def powerset(iterable):
-    s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
-
-
 def score_word():
 
     scores = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
@@ -13,6 +7,19 @@ def score_word():
             "l": 1, "o": 1, "n": 1, "q": 10, "p": 3, "s": 1,
             "r": 1, "u": 1, "t": 1, "w": 4, "v": 4, "y": 4,
             "x": 8, "z": 10}
-    pass
+    
+    return scores
 
-print(powerset("ASDASD"))
+
+
+#taken from lecture 6.2.2, func returns the powerset of a word's characters
+def powerset(iterable):
+    if(type(iterable) == str):
+        iterable = tuple(iterable)
+        s = list(iterable)
+        return list(chain.from_iterable(combinations(s, r) for r in range(len(s)+1)))
+    
+    else:
+        raise TypeError("Input must be string")
+
+
