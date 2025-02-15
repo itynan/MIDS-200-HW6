@@ -46,7 +46,7 @@ def run_scrabble(p_word):
     output = score_word(list_to_score)
     
     print(output)
-    #return output
+    return output
 if __name__ == "__main__":
-    run_scrabble("MATTER")
+    run_scrabble("AB")
    
