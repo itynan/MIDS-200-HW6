@@ -36,8 +36,11 @@ def run_scrabble(p_word):
     All permutations are tested against a dictionary of real words provided  '''
 
 
-    if not isinstance(p_word, str) or len(p_word) < 2 or len(p_word) > 7:
-        raise TypeError("Input must be string with more than one character and less than 8")
+    if not isinstance(p_word, str) or len(p_word) < 2:
+        raise TypeError("Input must be string with more than one character")
+    if len(p_word) > 7:
+                return "Error: Input must be string with more than one character"
+
     if p_word.count("*") + p_word.count("?") > 2:
         raise TypeError("Input contains more than 2 wildcards")
 
