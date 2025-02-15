@@ -35,7 +35,7 @@ def output_tpl_bldr(word):
 
 #taken from lecture 6.2.2, func returns the powerset of a word's characters
 def powerset(iterable):
-    if(type(iterable) != str or len(iterable) < 2 or len(iterable) > 7):
+    if not isinstance(iterable, str) or len(iterable) < 2 or len(iterable) > 7:        
         raise TypeError("Input must be string with more than one character")
     else:
         iterable = tuple(iterable.upper())

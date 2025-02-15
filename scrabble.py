@@ -36,8 +36,12 @@ def run_scrabble(p_word):
     All permutations are tested against a dictionary of real words provided  '''
 
 
-    if type(p_word) != str or len(p_word) < 2 or len(p_word) > 7:
+    if not isinstance(p_word, str) or len(p_word) < 2 or len(p_word) > 7:
         raise TypeError("Input must be string with more than one character and less than 8")
+    if sum(p_word.count("*") or p_word.count("?")) > 2:
+        raise TypeError("Input contains more than 2 wildcards")
+
+
     
     word_dict = create_word_dict()
     
@@ -50,8 +54,8 @@ def run_scrabble(p_word):
     #print(list_to_score)
     output = score_word(list_to_score)
     
-    #print(output)
+    print(output)
     return output
 if __name__ == "__main__":
-    run_scrabble("ZAEfiee")
+    run_scrabble("AB")
    
