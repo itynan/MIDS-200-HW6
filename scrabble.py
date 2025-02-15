@@ -37,6 +37,9 @@ def run_scrabble(p_word):
 
     if any(char.isdigit() for char in p_word):
         return "Input must contain NO numbers"
+    
+    if any(not char.isalpha() for char in p_word):
+        return "Input must contain no non alpha chars"
 
     if not isinstance(p_word, str):
         return "Input must be string with more than one character"
@@ -64,5 +67,5 @@ def run_scrabble(p_word):
     print(output)
     return output
 if __name__ == "__main__":
-    print(run_scrabble("A1123B"))
+    print(run_scrabble(")"))
    
