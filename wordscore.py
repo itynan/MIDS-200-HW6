@@ -1,15 +1,17 @@
 from itertools import chain, combinations
 
 
-#will take each word and return the score to be imported into scabble.py
 def score_word(words):
-
+    '''Takes in a list and returns a tuple of tuples(including the count of tuples that each contain a word and a score). Each character in each word 
+    in words(list) is evaluated for its character score and that score is aggregated and stored in a tuple next to the word evaluated (5,'MAT')
+    into scabble.py
+    '''
     output = []
 
     for word in words:
         output.append(output_tpl_bldr(word))
     
-    return output
+    return output, len(output)
 
 def output_tpl_bldr(word):
     
@@ -20,20 +22,14 @@ def output_tpl_bldr(word):
         "x": 8, "z": 10}
 
 
-    return (word, sum(scores.get(char.lower(), 0) for char in word))          
-
-#aggreagte word score
-#TODO: aggregfate score per char and construct tuple list
-
-
-
-    
-    return scores
+    before_count = (sum(scores.get(char.lower(), 0) for char in word))        
+    add_count =(before_count, word) 
+    return add_count 
 
 
 
-
-#TODO:FIGURE OUT WHAT TO DO WITH CASES IN TERMS OF INPUT AND SCORES DICT
+#TODO:FIGURE OUT WHAT TO DO WITH CASES IN TERMS OF INPUT AND SCORES DICT - 
+# DONE convert lower for char count when evaluating against scores dictionary score
 
 #taken from lecture 6.2.2, func returns the powerset of a word's characters
 def powerset(iterable):

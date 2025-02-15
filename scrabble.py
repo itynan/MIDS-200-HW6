@@ -44,7 +44,7 @@ def run_scrabble(p_word):
             list_to_score.append(word)
     #print(list_to_score)
     output = score_word(list_to_score)
-    output = (output,len(output))
+    
     print(output)
     #return output
 if __name__ == "__main__":
