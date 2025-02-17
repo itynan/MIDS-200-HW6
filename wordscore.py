@@ -37,23 +37,27 @@ def output_tpl_bldr(word):
 def powerset(iterable):
     #https://www.geeksforgeeks.org/python-itertools-product/
 
-    if any(char in"*?" for char in iterable):
-        
 
-    else:
 
+    try:
         iterable = tuple(iterable.upper())
-        s = list(iterable)
-        all_tuples= list(chain.from_iterable(permutations(s, r) for r in range(2,len(s)+1,8)))
-                
-        #for loop constructs list of all possible permutations into contiguous words and removes tuples with <2 chars and > 7
-        words_to_check = []
-        for tupl in all_tuples:
-            word = "".join(tupl) 
-            #run redundant checks 
-            if(len(word) > 1 and len(word) < 8):
-                words_to_check.append(word)
-        return words_to_check
-    
+        wc_count = iterable.count("*") + iterable.count("?")
+        
+        if wc_count == 0:
+            s = list(iterable)
+            all_tuples= list(chain.from_iterable(permutations(s, r) for r in range(2,min(len(s)+1,8))))
+                    
+            #for loop constructs list of all possible permutations into contiguous words and removes tuples with <2 chars and > 7
+            words_to_check = []
+            for tupl in all_tuples:
+                word = "".join(tupl) 
+                #run redundant checks 
+                if(len(word) > 1 and len(word) < 8):
+                    words_to_check.append(word)
+            return words_to_check
+        
+    except Exception as e:
+        print("Error:", e)
+        
 
 #print(powerset("HAT"))

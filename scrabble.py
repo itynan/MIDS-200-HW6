@@ -2,10 +2,20 @@ from collections import defaultdict
 from wordscore import score_word, powerset
 
 def create_word_dict():
-    with open("sowpods.txt","r") as infile:
-        raw_input = infile.readlines()
-        data = [datum.strip('\n') for datum in raw_input]
+    '''key should be two letters since only 2 letter words and larger are used
+    https://www.geeksforgeeks.org/defaultdict-in-python/?utm_source=chatgpt.com
+    using default dict to create a dictionary of dictionaries organized by first 
+    two letters EX: {"AA": "AA","AARDVARK" } etc'''
     
+    try:
+        with open("sowpods.txt","r") as infile:
+            raw_input = infile.readlines()
+    except IOError:
+        raise IOError("ERROR reading file")
+        
+    data = [datum.strip('\n') for datum in raw_input]
+    if not data:
+        raise ValueError("File missing words to parse")
 
     #two pointer approach to populate dict more efficiently 
     left = 0
@@ -13,11 +23,6 @@ def create_word_dict():
     mid = len(data) // 2
     
     word_dict = defaultdict(list)
-
-    '''key should be two letters since only 2 letter words and larger are used
-    https://www.geeksforgeeks.org/defaultdict-in-python/?utm_source=chatgpt.com
-    using default dict to create a dictionary of dictionaries organized by first 
-    two letters EX: {"AA": "AA","AARDVARK" } etc'''
 
     while left <= mid and right > mid:
         for i in [left,right]:
@@ -47,15 +52,13 @@ def run_scrabble(p_word):
          return "Error: Input must be string with more than one character"
     if len(p_word) > 7:
         return "Error: Input must be string with less than 8 chars"
-
     if p_word.count("*") + p_word.count("?") > 2:
         return "Input contains more than 2 wildcards"
-
-
 
     word_dict = create_word_dict()
     
     words_to_check = powerset(p_word)
+    
     list_to_score = []
     for word in words_to_check:
         sub_dict = word_dict.get(word[:2],[])
@@ -67,5 +70,5 @@ def run_scrabble(p_word):
     print(output)
     return output
 if __name__ == "__main__":
-    print(run_scrabble("*?"))
+    run_scrabble("ZAEfiee")
    
