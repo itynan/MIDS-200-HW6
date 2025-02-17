@@ -61,14 +61,20 @@ def run_scrabble(p_word):
     
     list_to_score = []
     for word in words_to_check:
-        sub_dict = word_dict.get(word[:2],[])
-        if word in sub_dict and word not in list_to_score:
-            list_to_score.append(word)
-    #print(list_to_score)
+        first_two = [word[:2]] if "?" not in word and "*" not in word else [letter + word[1] for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"]
+
+        for ft in first_two:
+            sub_dict = word_dict.get(ft, [])
+            if word in sub_dict and word not in list_to_score:
+                list_to_score.append(word)
+
+    # print(list_to_score)
+  
     output = score_word(list_to_score)
+    #print(f"output from score_word = {output}") 
     
     print(output)
     return output
 if __name__ == "__main__":
-    run_scrabble("MAT*TER")
+    run_scrabble("abc*")
    

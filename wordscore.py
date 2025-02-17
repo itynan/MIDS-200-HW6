@@ -21,18 +21,17 @@ def score_word(words):
 #TODO:FIGURE OUT WHAT TO DO WITH CASES IN TERMS OF INPUT AND SCORES DICT - 
 # DONE convert lower for char count when evaluating against scores dictionary score
 def gen_perms(iterable):
-    
+    if iterable in perm_memo:
+        return perm_memo[iterable]
 
     words_to_check = set()
 
     for perm in range(2, min(len(iterable)+ 1, 8)):
-        if(iterable, perm) in perm_memo:
-            words_to_check.update(perm_memo[(iterable,perm)])
-        else:
-            perms = {"".join(tupl) for tupl in permutations(iterable,perm)}
-            perm_memo[(iterable,perm)] = perms
-            words_to_check.update(perms)
+        perms = {"".join(tupl) for tupl in permutations(iterable,perm)}
+        perm_memo[(iterable,perm)] = perms
+        words_to_check.update(perms)
 
+    perm_memo[iterable] = words_to_check
     return words_to_check
 
 
@@ -47,31 +46,39 @@ def powerset(iterable):
 
         wc_element = [x for x, c in enumerate(iterable) if c in "*?"]
 
-        words_to_check = set()
-        wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+       # print(f"DEBUG: Input = {iterable}, Wildcard Count = {wc_count}, Positions = {wc_element}")
+
 
 
         
         if wc_count == 0:
             words_to_check = gen_perms(iterable)
+            return list(words_to_check)
+
+        words_to_check = set()
         
-        
-        
-        
+        strip_wc = "".join(x if x not in "*?" else "_" for x in iterable)
+        memo_base = gen_perms(strip_wc.replace("_",""))
+
+        words_to_check = set()
+        wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        #print(f"DEBUG: Base permutations (no wildcards) = {memo_base}")
+
+        perm_memo_key = (strip_wc, wc_count, tuple(wc_element))
+        if perm_memo_key in perm_memo:
+            return list(perm_memo[perm_memo_key])
         
 
         if wc_count == 1:
-            strip_wc = "".join(x  for x in iterable if x not in "*?")
             #perm_memo_key = (strip_wc, 1, tuple(wc_element))
             wc = wc_element[0] 
             wc1_words = set()
             words_to_check = gen_perms(iterable)
-            for word in words_to_check:
-                for chr in wc_vals:
-                    new_word = word[:wc] +chr +word[wc:]
+            for word in memo_base:
+                for char in wc_vals:
+                    new_word = word[:wc] +char +word[wc+1:]
                     wc1_words.add(new_word)
-            words_to_check = wc1_words
-            words_to_check 
+            return list(wc1_words)
 
             # if perm_memo_key in perm_memo:
             #     return list(perm_memo[perm_memo_key])
@@ -80,9 +87,10 @@ def powerset(iterable):
         if wc_count == 2:
             pass
 
-        return words_to_check
+        
     except Exception as e:
         print("Error:", e)
+        return []
         
 
 #print(powerset("HAT"))
