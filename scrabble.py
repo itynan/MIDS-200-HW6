@@ -73,8 +73,11 @@ def run_scrabble(p_word):
     output = score_word(list_to_score)
     #print(f"output from score_word = {output}") 
     
-    print(output)
+  
     return output
+
+
+
 if __name__ == "__main__":
-    run_scrabble("abc*")
+   run_scrabble("abc*")
    
