@@ -70,5 +70,5 @@ def run_scrabble(p_word):
     print(output)
     return output
 if __name__ == "__main__":
-    run_scrabble("ZAEfiee")
+    run_scrabble("MAT*TER")
    
