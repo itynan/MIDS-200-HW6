@@ -1,6 +1,7 @@
 from collections import defaultdict
 from wordscore import score_word, powerset
-
+global orig_word
+orig_word = ""
 def create_word_dict():
     '''key should be two letters since only 2 letter words and larger are used
     https://www.geeksforgeeks.org/defaultdict-in-python/?utm_source=chatgpt.com
@@ -40,6 +41,8 @@ def run_scrabble(p_word):
     passes the the word into a powerset function that generates a list of all possible permutations.
     All permutations are tested against a dictionary of real words provided  '''
 
+    orig_word = p_word
+
     if any(char.isdigit() for char in p_word):
         return "Input must contain NO numbers"
     
@@ -59,6 +62,9 @@ def run_scrabble(p_word):
     
     words_to_check = powerset(p_word)
     
+    wc_positions = {i for i, char in enumerate(p_word) if char in "*?"}
+
+
     list_to_score = []
     for word in words_to_check:
         first_two = [word[:2]] if "?" not in word and "*" not in word else [letter + word[1] for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"]
@@ -70,14 +76,14 @@ def run_scrabble(p_word):
 
     # print(list_to_score)
   
-    output = score_word(list_to_score)
+    output = score_word(list_to_score, wc_positions)
     #print(f"output from score_word = {output}") 
     
-  
+    print(output)
     return output
 
 
 
 if __name__ == "__main__":
-   run_scrabble("abc*")
+   run_scrabble("?a")
    
