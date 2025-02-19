@@ -56,14 +56,17 @@ def powerset(iterate):
 
     for ele in range(2, min(7,length) + 1):
         for comb in combinations(chars, ele):
-            wc_count = iterate.count('?') + iterate.count('*') 
+            wc_count = comb.count('?') + comb.count('*') 
             for perm in permutations(comb):
                 if wc_count == 0:
                     for perm in permutations(comb):
                         output.add("".join(perm))
 
-                if wc_count ==1:
+                if wc_count == 1:
                     for sub in one_wc(perm):
+                        output.add("".join(sub))
+                if wc_count == 2:
+                    for sub in two_wcs(perm):
                         output.add("".join(sub))
 
     output = list(output)
