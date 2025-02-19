@@ -50,6 +50,12 @@ def run_scrabble(p_word):
     passes the the word into a powerset function that generates a list of all possible permutations.
     All permutations are tested against a dictionary of real words provided  '''
 
+    wc_case = [[],0]
+    if len(p_word) == 2 and (p_word.count("*") + p_word.count("?")):
+        print(wc_case)
+        return wc_case
+    
+    
     if any(char.isdigit() for char in p_word):
         return "Input must contain NO numbers"
     
@@ -89,6 +95,6 @@ def run_scrabble(p_word):
 
     return output
 if __name__ == "__main__":
-    run_scrabble("abc*")
+    run_scrabble("?*")
    
 
