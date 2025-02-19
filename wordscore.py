@@ -1,6 +1,4 @@
 from itertools import combinations, permutations
-from collections import defaultdict
-
 
 powerset_memo = {}
 
@@ -45,6 +43,11 @@ def output_tpl_bldr(word, orig_count):
     return (letter_score,word)
 
 def powerset(iterate):
+
+    '''This function computes all possible permutations of substrings for 0,1,2 wildcard words
+    It identifies the number of wildcares per iteration to correctly identify all possible substrings
+    If a WC is present, the substr is sent to the respective WC methods to construct all string with 
+    Alpha letters replacing the WC. These are returned to check against the sowpods file '''
 
     if iterate in powerset_memo:
         return powerset_memo[iterate]

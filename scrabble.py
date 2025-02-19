@@ -96,5 +96,5 @@ def run_scrabble(p_word):
     return output
 if __name__ == "__main__":
     #run_scrabble("abc")
-    print(run_scrabble("a?*"))
+    print(run_scrabble("QU**ZZ"))
 
