@@ -51,9 +51,9 @@ def run_scrabble(p_word):
     All permutations are tested against a dictionary of real words provided  '''
     p_word = p_word.upper()
     
-    if len(p_word) == 2 and ((p_word.count("*") + p_word.count("?"))==2):
-        #print(wc_case)
-        return[list([]),0]
+    # if len(p_word) == 2 and ((p_word.count("*") + p_word.count("?"))==2):
+    #     #print(wc_case)
+    #     return[list([]),0]
     
     
     if any(char.isdigit() for char in p_word):
@@ -96,5 +96,5 @@ def run_scrabble(p_word):
     return output
 if __name__ == "__main__":
     #run_scrabble("abc")
-    print(run_scrabble("abc*"))
+    print(run_scrabble("?*"))
 
