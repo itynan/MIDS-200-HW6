@@ -45,6 +45,21 @@ def powerset(iterable):
 
         wc_element = [x for x, c in enumerate(iterable) if c in "*?"]
 
+        combination_set = set()
+        non_wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        non_wc_char = ""
+        #address edge case where there is only 1 char and only 1 wildcard
+        if wc_count == 1 and (len(iterable) == 2):
+            
+            for char in iterable:
+                if char.isalpha():
+                    non_wc_char =char.upper()
+                print(non_wc_char)
+            for char in non_wc_vals:
+                combination_set.add(char + non_wc_char)
+                combination_set.add(non_wc_char + char)
+
+            return list(combination_set)
         
 
         if wc_count == 0:
@@ -57,25 +72,12 @@ def powerset(iterable):
         memo_base = gen_perms(strip_wc.replace("_",""))
 
         words_to_check = set()
-        non_wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
         perm_memo_key = (strip_wc, wc_count, tuple(wc_element))
         if perm_memo_key in perm_memo:
             return list(perm_memo[perm_memo_key])
         
-        combination_set = set()
-        non_wc_char = ""
-        #address edge case where there is only 1 char and only 1 wildcard
-        if wc_count == 1 and (len(iterable) == 2):
         
-            for char in non_wc_vals:
-                if char.isalpha():
-                    non_wc_char =char.upper()
-            for char in non_wc_vals:
-                combination_set.add(char + non_wc_char)
-                combination_set.add(non_wc_char + char)
-
-            return list(combination_set)
         if wc_count == 1:
             #perm_memo_key = (strip_wc, 1, tuple(wc_element))
             wc = wc_element[0] 
