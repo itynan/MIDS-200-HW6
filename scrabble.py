@@ -51,7 +51,7 @@ def run_scrabble(p_word):
     All permutations are tested against a dictionary of real words provided  '''
 
     wc_case = [[],0]
-    if len(p_word) == 2 and (p_word.count("*") + p_word.count("?")):
+    if len(p_word) == 2 and ((p_word.count("*") + p_word.count("?"))==2):
         print(wc_case)
         return wc_case
     
