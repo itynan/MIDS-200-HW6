@@ -1,6 +1,16 @@
 from collections import defaultdict
 from wordscore import score_word, powerset
 
+def orig_word_count(p_word):
+    '''method counts how many times a char is seen in a 
+    word to help you keep track of the word's score''' 
+    orig_count = {}
+    for char in p_word:
+        if char not in "?*":
+            c = char.lower()
+            orig_count[c] = orig_count.get(c, 0) + 1
+
+    return orig_count
 def create_word_dict():
     '''key should be two letters since only 2 letter words and larger are used
     https://www.geeksforgeeks.org/defaultdict-in-python/?utm_source=chatgpt.com
@@ -55,6 +65,7 @@ def run_scrabble(p_word):
     if p_word.count("*") + p_word.count("?") > 2:
         return "Input contains more than 2 wildcards"
 
+
     word_dict = create_word_dict()
     
     words_to_check = powerset(p_word)
@@ -69,12 +80,15 @@ def run_scrabble(p_word):
                 list_to_score.append(word)
 
     # print(list_to_score)
-  
-    output = score_word(list_to_score)
-    #print(f"output from score_word = {output}") 
+    orig_count = orig_word_count(p_word)
     
+    output = score_word(list_to_score, orig_count)
+    #print(f"output from score_word = {output}") 
+
     print(output)
+
     return output
 if __name__ == "__main__":
     run_scrabble("abc*")
    
+

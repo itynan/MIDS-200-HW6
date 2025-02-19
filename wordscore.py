@@ -2,15 +2,14 @@ from itertools import chain, permutations
 
 perm_memo = {}
 
-def score_word(words):
+def score_word(words,orig_count):
     '''Takes in a list and returns a tuple of tuples(including the count of tuples that each contain a word and a score). Each character in each word 
     in words(list) is evaluated for its character score and that score is aggregated and stored in a tuple next to the word evaluated (5,'MAT')
     into scabble.py
     '''
     output = []
-
     for word in words:
-        output.append(output_tpl_bldr(word))
+        output.append(output_tpl_bldr(word,orig_count))
     #https://stackoverflow.com/questions/3121979/how-to-sort-a-list-tuple-of-lists-tuples-by-the-element-at-a-given-index
     #this lambda sorts first by descending(NEGATIVE) numbers -x[0] and then alpha order
     sorted_num_alpha = sorted(output, key=lambda x: (-x[0], x[1]))
@@ -46,11 +45,7 @@ def powerset(iterable):
 
         wc_element = [x for x, c in enumerate(iterable) if c in "*?"]
 
-       # print(f"DEBUG: Input = {iterable}, Wildcard Count = {wc_count}, Positions = {wc_element}")
 
-
-
-        
         if wc_count == 0:
             words_to_check = gen_perms(iterable)
             return list(words_to_check)
@@ -62,7 +57,6 @@ def powerset(iterable):
 
         words_to_check = set()
         wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        #print(f"DEBUG: Base permutations (no wildcards) = {memo_base}")
 
         perm_memo_key = (strip_wc, wc_count, tuple(wc_element))
         if perm_memo_key in perm_memo:
@@ -86,7 +80,6 @@ def powerset(iterable):
 
         if wc_count == 2:
             pass
-
         
     except Exception as e:
         print("Error:", e)
@@ -95,18 +88,32 @@ def powerset(iterable):
 
 #print(powerset("HAT"))
 
-def output_tpl_bldr(word):
+def output_tpl_bldr(word, orig_count):
     '''function aggregates all scores per word and adds the value 
     in front of the word in a tuple to be added to the large output tuple
     appends the final tuple with the total count of words'''
     
+
     scores = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
         "f": 4, "i": 1, "h": 4, "k": 5, "j": 8, "m": 3,
         "l": 1, "o": 1, "n": 1, "q": 10, "p": 3, "s": 1,
         "r": 1, "u": 1, "t": 1, "w": 4, "v": 4, "y": 4,
         "x": 8, "z": 10}
+    
+    minus_wc = dict(orig_count)
+    letter_score = 0
+   
+    for char in word:
+        #if char is to be counted, perform lookup in scores and add its value to letter_score
+        #then remove it from minus_wc
+        if minus_wc.get(char.lower(), 0) > 0:
+            #print(char)
+            letter_score += scores.get(char.lower(), 0)
+            minus_wc[char.lower()] -= 1
+            #print(minus_wc)
 
+    return (letter_score,word)
 
-    before_count = (sum(scores.get(char.lower(), 0) for char in word))        
-    add_count =(before_count, word) 
-    return add_count 
+    # before_count = (sum(scores.get(char.lower(), 0) for char in word))        
+    # add_count =(before_count, word) 
+    # return add_count
