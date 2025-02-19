@@ -1,6 +1,8 @@
-from itertools import chain, permutations
+from itertools import combinations, permutations
+from collections import defaultdict
 
-perm_memo = {}
+
+powerset_memo = {}
 
 def score_word(words,orig_count):
     '''Takes in a list and returns a tuple of tuples(including the count of tuples that each contain a word and a score). Each character in each word 
@@ -15,93 +17,6 @@ def score_word(words,orig_count):
     sorted_num_alpha = sorted(output, key=lambda x: (-x[0], x[1]))
     return sorted_num_alpha, len(sorted_num_alpha)
 
-
-
-#TODO:FIGURE OUT WHAT TO DO WITH CASES IN TERMS OF INPUT AND SCORES DICT - 
-# DONE convert lower for char count when evaluating against scores dictionary score
-def gen_perms(iterable):
-    if iterable in perm_memo:
-        return perm_memo[iterable]
-
-    words_to_check = set()
-
-    for perm in range(2, min(len(iterable)+ 1, 8)):
-        perms = {"".join(tupl) for tupl in permutations(iterable,perm)}
-        perm_memo[(iterable,perm)] = perms
-        words_to_check.update(perms)
-
-    perm_memo[iterable] = words_to_check
-    return words_to_check
-
-
-#taken from lecture 6.2.2, func returns the powerset of a word's characters
-def powerset(iterable):
-    #https://www.geeksforgeeks.org/python-itertools-product/
-
-
-    try:
-        iterable = iterable.upper()
-        wc_count = iterable.count("*") + iterable.count("?")
-
-        wc_element = [x for x, c in enumerate(iterable) if c in "*?"]
-
-        combination_set = set()
-        non_wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        non_wc_char = ""
-        #address edge case where there is only 1 char and only 1 wildcard
-        if wc_count == 1 and (len(iterable) == 2):
-            
-            for char in iterable:
-                if char.isalpha():
-                    non_wc_char =char.upper()
-                print(non_wc_char)
-            for char in non_wc_vals:
-                combination_set.add(char + non_wc_char)
-                combination_set.add(non_wc_char + char)
-
-            return list(combination_set)
-        
-
-        if wc_count == 0:
-            words_to_check = gen_perms(iterable)
-            return list(words_to_check)
-
-        words_to_check = set()
-        
-        strip_wc = "".join(x if x not in "*?" else "_" for x in iterable)
-        memo_base = gen_perms(strip_wc.replace("_",""))
-
-        words_to_check = set()
-
-        perm_memo_key = (strip_wc, wc_count, tuple(wc_element))
-        if perm_memo_key in perm_memo:
-            return list(perm_memo[perm_memo_key])
-        
-        
-        if wc_count == 1:
-            #perm_memo_key = (strip_wc, 1, tuple(wc_element))
-            wc = wc_element[0] 
-            wc1_words = set()
-            words_to_check = gen_perms(iterable)
-            for word in memo_base:
-                for char in non_wc_vals:
-                    new_word = word[:wc] +char +word[wc+1:]
-                    wc1_words.add(new_word)
-            return list(wc1_words)
-
-            # if perm_memo_key in perm_memo:
-            #     return list(perm_memo[perm_memo_key])
-            
-
-        if wc_count == 2:
-            pass
-        
-    except Exception as e:
-        print("Error:", e)
-        return []
-        
-
-#print(powerset("HAT"))
 
 def output_tpl_bldr(word, orig_count):
     '''function aggregates all scores per word and adds the value 
@@ -129,6 +44,61 @@ def output_tpl_bldr(word, orig_count):
 
     return (letter_score,word)
 
-    # before_count = (sum(scores.get(char.lower(), 0) for char in word))        
-    # add_count =(before_count, word) 
-    # return add_count
+def powerset(iterate):
+
+    if iterate in powerset_memo:
+        return powerset_memo[iterate]
+
+    chars = list(iterate)
+    length = len(chars)
+
+    output = set()
+
+    for ele in range(2, min(7,length) + 1):
+        for comb in combinations(chars, ele):
+            wc_count = iterate.count('?') + iterate.count('*') 
+            for perm in permutations(comb):
+                if wc_count == 0:
+                    for perm in permutations(comb):
+                        output.add("".join(perm))
+
+                if wc_count ==1:
+                    for sub in one_wc(perm):
+                        output.add("".join(sub))
+
+    output = list(output)
+    powerset_memo[iterate] = output
+    return output
+
+def one_wc(comb):
+    results = []
+    non_wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    comb_list = list(comb)
+    index = 0
+
+    for x, char in enumerate(comb_list):
+        if char in ('?',"*"):
+            index = x
+            break
+    for x in non_wc_vals:
+        all_chars_list = comb_list[:]
+        all_chars_list[index] = x
+        results.append(tuple(all_chars_list))
+    return results
+
+def two_wcs(comb):
+    results = []
+    non_wc_vals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    comb_list = list(comb)
+    wc_index = [i for i, char in enumerate(comb_list) if char in ('?',"*")]
+    wc1 = wc_index[0]
+    wc2 = wc_index[1]
+
+    for let1 in non_wc_vals:
+        for let2 in non_wc_vals:
+            all_chars_list = comb_list[:]
+            all_chars_list[wc1] = let1
+            all_chars_list[wc2] = let2
+            results.append(tuple(all_chars_list))
+    return results
