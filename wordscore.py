@@ -45,9 +45,7 @@ def powerset(iterable):
 
         wc_element = [x for x, c in enumerate(iterable) if c in "*?"]
 
-        wc_case = [[],0]
-        if len(iterable) == 2 and wc_count == 2:
-            return wc_case
+        
 
         if wc_count == 0:
             words_to_check = gen_perms(iterable)
@@ -65,15 +63,17 @@ def powerset(iterable):
         if perm_memo_key in perm_memo:
             return list(perm_memo[perm_memo_key])
         
-        combination_set = set() 
+        combination_set = set()
+        non_wc_char = ""
         #address edge case where there is only 1 char and only 1 wildcard
         if wc_count == 1 and (len(iterable) == 2):
-            if iterable[0] not in "*?":
-                for letter in non_wc_vals:
-                    combination_set.add(iterable[0]+letter)
-            else:
-                for letter in non_wc_vals:
-                    combination_set.add(letter+iterable[1])
+        
+            for char in non_wc_vals:
+                if char.isalpha():
+                    non_wc_char =char.upper()
+            for char in non_wc_vals:
+                combination_set.add(char + non_wc_char)
+                combination_set.add(non_wc_char + char)
 
             return list(combination_set)
         if wc_count == 1:

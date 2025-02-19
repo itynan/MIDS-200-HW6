@@ -52,7 +52,7 @@ def run_scrabble(p_word):
 
     
     if len(p_word) == 2 and ((p_word.count("*") + p_word.count("?"))==2):
-        print(wc_case)
+        #print(wc_case)
         return[list([]),0]
     
     
@@ -95,6 +95,6 @@ def run_scrabble(p_word):
 
     return output
 if __name__ == "__main__":
-    run_scrabble("?*")
-   
+    #print(run_scrabble(""))
+    run_scrabble("?a")
 
